@@ -1,19 +1,28 @@
+const Service = require('egg').Service;
 const rnd = require('vanilla.js/random/dummy');
 
 
-module.exports = app => {
-  let memoryCache = {};
+let memoryCache = {};
 
-  return class OAuth extends app.Service {
-    get(key) {
-      const data = Object.assign({}, memoryCache[key]);
-      delete memoryCache[key];
+
+module.exports = class OAuth extends Service {
+  get(alias, code) {
+    const data = Object.assign({}, memoryCache[code]);
+    if (data.alias === alias) {
+      delete memoryCache[code];
       return data;
+    } else {
+      return {};
     }
+  }
 
-    async getAccessToken(code, openId) {
+  async getAccessToken(alias, code, openId) {
+    const { ctx } = this;
+    try {
       const accessToken = rnd();
-      memoryCache[code] = { accessToken, openId };
+      memoryCache[code] = { alias, accessToken, openId };
+    } catch (err) {
+      ctx.logger.error(err);
     }
-  };
+  }
 }

@@ -1,13 +1,19 @@
 'use strict';
 
 module.exports = app => {
-  app.get('/', 'home.index');
+  const { router, controller } = app;
 
-  app.get('/oauth', 'pivot.oauth');
-  app.post('/private-api/oauth/snsapi-base:url', 'pivot.oauthUrl');
-  app.get('/private-api/oauth/snsapi-base', 'pivot.oauthInfo');
-  app.get('/private-api/jssdk/config', 'pivot.jssdkConfig');
+  router.get('/', 'home.index');
 
-  app.post('/api/login', 'api.login');
-  app.get('/api/users', 'api.users');
+  // app.get('/oauth', 'pivot.oauth');
+  // app.get('/private-api/oauth/snsapi-base', 'pivot.oauthInfo');
+  // app.get('/private-api/jssdk/config', 'pivot.jssdkConfig');
+
+  router.post('/api/login', controller.api.login);
+  router.get('/api/users', controller.api.users);
+
+  // v2
+  router.post('/wechatpivot/api/apps/:alias/oauth-snsapi-base-url', controller.pivotapi.base);
+  router.get('/wechatpivot/apps/:alias/oauth', controller.pivotview.oauth);
+  router.get('/wechatpivot/api/apps/:alias/oauth-snsapi-base', controller.pivotapi.oauth);
 };

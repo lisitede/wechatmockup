@@ -19,10 +19,10 @@ module.exports = class ApiController extends Controller {
   async login() {
     const { ctx } = this;
 
-    const { username, code } = ctx.request.body;
+    const { username, alias, code } = ctx.request.body;
     const { openId } = await ctx.model.UserWechat.findOne({ where: { username } });
 
-    await ctx.service.oauth.getAccessToken(code, openId);
+    await ctx.service.oauth.getAccessToken(alias, code, openId);
 
     ctx.status = 201;
     ctx.body = { code: 0, message: 'ok' };

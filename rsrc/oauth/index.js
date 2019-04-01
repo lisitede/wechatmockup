@@ -14,8 +14,9 @@ $ready(function () {
 
   $on('.js-login', 'click', function () {
     const username = $find('[name="username"]').value;
+    const alias = $find('[name="alias"]').value;
     const code = $find('[name="code"]').value;
-    const command = { username, code };
+    const command = { username, alias, code };
 
     $post('/api/login', command).then((...args) => {
       console.log(args);
