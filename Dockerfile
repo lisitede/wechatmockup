@@ -1,4 +1,4 @@
-FROM hbrls/egg-web:latest
+FROM registry.cn-hangzhou.aliyuncs.com/proweb/egg-web:master
 
 COPY app /var/app/app
 COPY config /var/app/config
